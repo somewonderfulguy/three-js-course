@@ -1,21 +1,11 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
-import doorColor from './textures/door/color.jpg'
-
 import './style.css'
 
-// Textures
-const image = new Image()
-const texture = new THREE.Texture(image)
-texture.colorSpace = THREE.SRGBColorSpace
-
-image.onload = () => {
-  texture.needsUpdate = true
-}
-
-image.src = doorColor
-
+/**
+ * Base
+ */
 // Canvas
 const canvas = document.createElement('canvas')
 canvas.className = 'webgl'
@@ -28,7 +18,7 @@ const scene = new THREE.Scene()
  * Object
  */
 const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ map: texture })
+const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
@@ -54,6 +44,37 @@ window.addEventListener('resize', () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
 
+window.addEventListener('dblclick', () => {
+  const fullscreenElement =
+    document.fullscreenElement ||
+    (document as unknown as { webkitFullscreenElement: Element })
+      .webkitFullscreenElement
+
+  if (!fullscreenElement) {
+    if (canvas.requestFullscreen) {
+      canvas.requestFullscreen()
+    } else if (
+      (canvas as unknown as { webkitRequestFullscreen: () => void })
+        .webkitRequestFullscreen
+    ) {
+      ;(
+        canvas as unknown as { webkitRequestFullscreen: () => void }
+      ).webkitRequestFullscreen()
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen()
+    } else if (
+      (document as unknown as { webkitExitFullscreen: () => void })
+        .webkitExitFullscreen
+    ) {
+      ;(
+        document as unknown as { webkitExitFullscreen: () => void }
+      ).webkitExitFullscreen()
+    }
+  }
+})
+
 /**
  * Camera
  */
@@ -64,9 +85,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   100,
 )
-camera.position.x = 1
-camera.position.y = 1
-camera.position.z = 1
+camera.position.z = 3
 scene.add(camera)
 
 // Controls
@@ -80,7 +99,6 @@ const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
 })
 renderer.setSize(sizes.width, sizes.height)
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 /**
  * Animate

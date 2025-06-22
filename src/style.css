@@ -13,6 +13,8 @@ html,
 body {
   height: 100%;
   width: 100%;
+
+  overflow: hidden;
 }
 
 body {
@@ -23,4 +25,5 @@ body {
 
 .webgl {
   margin: 0 auto;
+  outline: none;
 }
