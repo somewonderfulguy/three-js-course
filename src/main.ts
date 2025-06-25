@@ -1,20 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
-import doorColor from './textures/door/color.jpg'
-
 import './style.css'
-
-// Textures
-const image = new Image()
-const texture = new THREE.Texture(image)
-texture.colorSpace = THREE.SRGBColorSpace
-
-image.onload = () => {
-  texture.needsUpdate = true
-}
-
-image.src = doorColor
 
 // Canvas
 const canvas = document.createElement('canvas')
@@ -23,14 +10,6 @@ document.body.appendChild(canvas)
 
 // Scene
 const scene = new THREE.Scene()
-
-/**
- * Object
- */
-const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ map: texture })
-const mesh = new THREE.Mesh(geometry, material)
-scene.add(mesh)
 
 /**
  * Sizes
@@ -66,7 +45,7 @@ const camera = new THREE.PerspectiveCamera(
 )
 camera.position.x = 1
 camera.position.y = 1
-camera.position.z = 1
+camera.position.z = 2
 scene.add(camera)
 
 // Controls
